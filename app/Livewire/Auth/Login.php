@@ -37,7 +37,7 @@ class Login extends Component
 
         if($user->role !== 'admin'){
             throw ValidationException::withMessages([
-                'email' => "You are not an admin.",
+                'email' => "You are not admin.",
             ]);
         }
 
