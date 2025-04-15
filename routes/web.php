@@ -11,4 +11,5 @@ Route::get('/dash', function () {
     return view('admin.dashboard');
 });
 
-Route::get('/login', Login::class)->name('login')->middleware('guest');
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';

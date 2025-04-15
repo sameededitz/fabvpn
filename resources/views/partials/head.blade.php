@@ -18,6 +18,8 @@
 <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
 <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
 
+<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+
 <title> @yield('title') | {{ config('app.name') }} </title>
 
 @yield('styles')
