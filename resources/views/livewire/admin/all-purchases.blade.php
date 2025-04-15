@@ -1,6 +1,6 @@
 <div>
-      <!--breadcrumb-->
-      <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="breadcrumb-title pe-3">Fab VPN</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
@@ -24,12 +24,14 @@
             <hr />
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <select class="form-select form-select-dropdown mb-3" aria-label="Default select example">
+                    <select class="form-select form-select-dropdown mb-3" livewire:model.live='perpage'
+                        aria-label="Default select example">
                         <option value="1">5</option>
                         <option value="2">10</option>
                         <option value="3">15</option>
                     </select>
-                    <input type="text" class="form-control table-search search-control" placeholder="Type to search...">
+                    <input type="text" class="form-control table-search search-control"
+                        placeholder="Type to search...">
                 </div>
                 <div class="card-body">
                     <table class="table mb-0">
@@ -46,16 +48,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                            </tr>
+                            @foreach ($purchases as $purchase)
+                                <tr>
+                                    <th scope="row">{{ $purchase->id }}</th>
+                                    <td>{{ $purchase->user->name }}</td>
+                                    <td>{{ $purchase->plan->name }}</td>
+                                    <td>{{ $purchase->amount_paid }}</td>
+                                    <td>{{ $purchase->start_date }}</td>
+                                    <td>{{ $purchase->end_date }}</td>
+                                    <td>{{ $purchase->status }}</td>
+                                    <td>
+                                        {{-- <a href="{{ route('edit-purchase', ['id' => $purchase->id]) }}"
+                                            class="btn btn-primary">Edit</a> --}}
+                                        <button wire:click="deletePlan({{ $purchase->id }})"
+                                            class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
