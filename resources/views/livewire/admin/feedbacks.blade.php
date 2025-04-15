@@ -19,12 +19,12 @@
             <hr />
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <select class="form-select form-select-dropdown mb-3" aria-label="Default select example">
+                    <select class="form-select form-select-dropdown mb-3" wire:model.live='perPage' aria-label="Default select example">
                         <option value="1">5</option>
                         <option value="2">10</option>
                         <option value="3">15</option>
                     </select>
-                    <input type="text" class="form-control table-search search-control" placeholder="Type to search...">
+                    <input type="text" wire:model.live='search' class="form-control table-search search-control" placeholder="Type to search...">
                 </div>
                 <div class="card-body">
                     <table class="table mb-0">
@@ -38,17 +38,30 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse ($feedbacks as $feedback)
+                                <tr>
+                                    <th scope="row">{{ $feedback->id }}</th>
+                                    <td>{{ $feedback->subject }}</td>
+                                    <td>{{ $feedback->email }}</td>
+                                    <td>{{ $feedback->created_at }}</td>
+                                    <td>
+                                        {{-- <a href="javascript:;" class="btn btn-primary btn-sm">View</a> --}}
+                                        <a href="javascript:;" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                                
+                            @empty
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
+                                <td colspan="6" class="text-center">No users found</td>
                             </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                    <div class="mt-3">
+                        {{ $feedbacks->links('components.pagination', data:['scrollTo' => false]) }}
+                    </div>
                 </div>
-                <nav aria-label="Page navigation form-pagination">
+                {{-- <nav aria-label="Page navigation form-pagination">
                     <ul class="pagination round-pagination">
                         <li class="page-item"><a class="page-link" href="javascript:;">Previous</a>
                         </li>
@@ -61,7 +74,7 @@
                         <li class="page-item"><a class="page-link" href="javascript:;">Next</a>
                         </li>
                     </ul>
-                </nav>
+                </nav> --}}
             </div>
         </div>
     </div>

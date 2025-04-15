@@ -24,12 +24,12 @@
             <hr />
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <select class="form-select form-select-dropdown mb-3" aria-label="Default select example">
+                    <select class="form-select form-select-dropdown mb-3" wire:model.live='perPage' aria-label="Default select example">
                         <option value="1">5</option>
                         <option value="2">10</option>
                         <option value="3">15</option>
                     </select>
-                    <input type="text" class="form-control table-search search-control" placeholder="Type to search...">
+                    <input type="text" class="form-control table-search search-control" wire:model.live='search' placeholder="Type to search...">
                 </div>
                 <div class="card-body">
                     <table class="table mb-0">
@@ -37,29 +37,40 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">IP Address</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Port</th>
-                                <th scope="col">Domain</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Plan</th>
+                                <th scope="col">Last Login</th>
+                                <th scope="col">Joined</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse ($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->activePlan ? $user->activePlan->plan->name : 'Free' }}</td>
+                                    <td>{{ $user->last_login ? $user->last_login->diffForHumans() : 'Never' }}</td>
+                                    <td>{{ $user->created_at->toFormattedDateString() }}</td>
+                                    <td>
+                                        {{-- <a href="{{ route('admin.edit', $user) }}" class="btn btn-primary">Edit</a> --}}
+                                        <button class="btn btn-danger" wire:click="delete({{ $user->id }})">Delete</button>
+                                    </td>
+                                </tr>
+                                
+                            @empty
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
+                                <td colspan="6" class="text-center">No users found</td>
                             </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                    <div class="mt-3">
+                        {{ $users->links('components.pagination', data:['scrollTo' => false]) }}
+                    </div>
                 </div>
-                <nav aria-label="Page navigation form-pagination">
+                {{-- <nav aria-label="Page navigation form-pagination">
                     <ul class="pagination round-pagination">
                         <li class="page-item"><a class="page-link" href="javascript:;">Previous</a>
                         </li>
@@ -72,7 +83,7 @@
                         <li class="page-item"><a class="page-link" href="javascript:;">Next</a>
                         </li>
                     </ul>
-                </nav>
+                </nav> --}}
             </div>
         </div>
     </div>

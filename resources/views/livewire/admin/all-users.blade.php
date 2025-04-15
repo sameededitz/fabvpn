@@ -1,6 +1,6 @@
 <div>
-      <!--breadcrumb-->
-      <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <!--breadcrumb-->
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="breadcrumb-title pe-3">Fab VPN</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
@@ -24,12 +24,17 @@
             <hr />
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <select class="form-select form-select-dropdown mb-3" aria-label="Default select example">
-                        <option value="1">5</option>
-                        <option value="2">10</option>
-                        <option value="3">15</option>
+                    <select class="form-select form-select-dropdown mb-3" wire:model.live="perPage"
+                        aria-label="Default select example">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
                     </select>
-                    <input type="text" class="form-control table-search search-control" placeholder="Type to search...">
+                    <input type="text" wire:model.live="search" class="form-control table-search search-control"
+                        placeholder="Type to search...">
                 </div>
                 <div class="card-body">
                     <table class="table mb-0">
@@ -39,27 +44,37 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Plan</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Domain</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Last Login</th>
+                                <th scope="col">Joined</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>Mark</td>
-                            </tr>
+                            @forelse ($users as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->activePlan ? $user->activePlan->plan->name : 'Free' }}</td>
+                                    <td>{{ $user->last_login ? $user->last_login->diffForHumans() : 'Never' }}</td>
+                                    <td>{{ $user->created_at->toFormattedDateString() }}</td>
+                                    <td>
+                                        {{-- <a href="{{ route('admin.edit', $user) }}" class="btn btn-primary">Edit</a> --}}
+                                        <button class="btn btn-danger" wire:click="delete({{ $user->id }})">Delete</button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">No users found</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                    <div class="mt-3">
+                        {{ $users->links('components.pagination', data:['scrollTo' => false]) }}
+                    </div>
                 </div>
-                <nav aria-label="Page navigation form-pagination">
+                {{-- <nav aria-label="Page navigation form-pagination">
                     <ul class="pagination round-pagination">
                         <li class="page-item"><a class="page-link" href="javascript:;">Previous</a>
                         </li>
@@ -72,7 +87,7 @@
                         <li class="page-item"><a class="page-link" href="javascript:;">Next</a>
                         </li>
                     </ul>
-                </nav>
+                </nav> --}}
             </div>
         </div>
     </div>

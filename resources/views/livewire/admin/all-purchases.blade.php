@@ -24,13 +24,16 @@
             <hr />
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <select class="form-select form-select-dropdown mb-3" livewire:model.live='perpage'
+                    <select class="form-select form-select-dropdown mb-3" wire:model.live='perPage'
                         aria-label="Default select example">
-                        <option value="1">5</option>
-                        <option value="2">10</option>
-                        <option value="3">15</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
                     </select>
-                    <input type="text" class="form-control table-search search-control"
+                    <input type="text" wire:model.live='search' class="form-control table-search search-control"
                         placeholder="Type to search...">
                 </div>
                 <div class="card-body">
@@ -67,8 +70,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mt-3">
+                        {{ $purchases->links('components.pagination', data:['scrollTo' => false]) }}
+                    </div>
                 </div>
-                <nav aria-label="Page navigation form-pagination">
+                {{-- <nav aria-label="Page navigation form-pagination">
                     <ul class="pagination round-pagination">
                         <li class="page-item"><a class="page-link" href="javascript:;">Previous</a>
                         </li>
@@ -81,7 +87,7 @@
                         <li class="page-item"><a class="page-link" href="javascript:;">Next</a>
                         </li>
                     </ul>
-                </nav>
+                </nav> --}}
             </div>
         </div>
     </div>

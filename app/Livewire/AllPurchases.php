@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Purchase;
 use Livewire\Component;
 use Livewire\WithPagination;
+
 class AllPurchases extends Component
 {
     use WithPagination;
@@ -16,16 +17,16 @@ class AllPurchases extends Component
     }
     public function render()
     {
-        $purchases =Purchase::query()
-            ->when($this->search, function ($query) {
-                $query->where('user_id', 'like', '%' . $this->search . '%')
-                    ->orWhere('plan_id', 'like', '%' . $this->search . '%');
-            })
+        $purchases = Purchase::query()
+            ->when($this->search, fn($query) => $query->whereHas('user', fn($q) => $q->where('name', 'like', '%' . $this->search . '%')))
+            // ->when($this->statusFilter, fn($query) => $query->where('status', $this->statusFilter))
+            // ->when($this->amountFilter, fn($query) => $query->where('amount_paid', '<=', $this->amountFilter))
+            // ->latest()
             ->paginate($this->perPage);
 
         /** @disregard @phpstan-ignore-line */
         return view('livewire.admin.all-purchases', compact('purchases'))
-        ->extends('layouts.app')
-        ->section('content');
+            ->extends('layouts.app')
+            ->section('content');
     }
 }
