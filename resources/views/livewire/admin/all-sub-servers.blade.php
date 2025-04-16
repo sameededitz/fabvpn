@@ -1,4 +1,4 @@
-@section('title', 'All Servers')
+@section('title', 'All Sub Servers')
 <div>
     @if (session('message'))
         <x-alert type="info" :message="session('message')" />
@@ -11,7 +11,8 @@
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Servers</li>
+                    <li class="breadcrumb-item" aria-current="page">Servers</li>
+                    <li class="breadcrumb-item active" aria-current="page">Sub Servers</li>
                 </ol>
             </nav>
         </div>
@@ -22,10 +23,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    <h3 class="card-title mb-0">All Servers</h3>
-                    <a href="{{ route('servers.add') }}">
+                    <h3 class="card-title mb-0">All Sub Servers</h3>
+                    <a href="{{ route('sub-server.add', $server->id) }}">
                         <button type="button" class="btn btn-light btn-outline-primary px-3 radius-30">Create
-                            Server</button>
+                            Sub Server</button>
                     </a>
                 </div>
                 <div class="card-body">
@@ -44,18 +45,6 @@
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
                             </select>
-                            <select class="form-select form-select-sm" wire:model.live="typeFilter">
-                                <option value="" selected>Type</option>
-                                <option value="free">Free</option>
-                                <option value="premium">Premium</option>
-                            </select>
-                            <select class="form-select form-select-sm" wire:model.live="platformFilter">
-                                <option value="" selected>Platform</option>
-                                <option value="windows">Windows</option>
-                                <option value="macos">Mac</option>
-                                <option value="ios">iOS</option>
-                                <option value="android">Android</option>
-                            </select>
                         </div>
                         <div class="search-input">
                             <div class="input-group input-group-sm">
@@ -72,57 +61,38 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Image</th>
                                 <th>Name</th>
-                                <th>Platforms</th>
-                                <th>Type</th>
+                                <th>Linked VPS Server</th>
+                                <th>VPS Server Username</th>
+                                <th>VPS Server IP Address</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th>Created At</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($servers as $server)
+                            @forelse ($subServers as $subServer)
                                 <tr>
-                                    <td>{{ $server->id }}</td>
-                                    <td>
-                                        <img src="{{ $server->getFirstMediaUrl('image') }}" alt="Server Image"
-                                            width="80px">
-                                    </td>
-                                    <td>{{ $server->name }}</td>
-                                    <td>
-                                        <span
-                                            class="badge badge-light-primary">{{ $server->android ? 'Android' : '' }}</span>
-                                        <span class="badge badge-light-secondary">{{ $server->ios ? 'iOS' : '' }}</span>
-                                        <span
-                                            class="badge badge-light-warning">{{ $server->macos ? 'MacOS' : '' }}</span>
-                                        <span
-                                            class="badge badge-light-success">{{ $server->windows ? 'Windows' : '' }}</span>
-                                    </td>
+                                    <td>{{ $subServer->id }}</td>
+                                    <td>{{ $subServer->name }}</td>
+                                    <td>{{ $subServer->vpsServer->name ?? 'N/A' }}</td>
+                                    <td>{{ $subServer->vpsServer->username }}</td>
+                                    <td>{{ $subServer->vpsServer->ip_address }}</td>
                                     <td>
                                         <span
-                                            class="badge {{ $server->isPremium() ? 'badge-light-primary' : 'badge-light-secondary' }}">
-                                            {{ ucfirst($server->type) }}
+                                            class="badge {{ $subServer->isActive() ? 'badge-light-success' : 'badge-light-danger' }}">
+                                            {{ $subServer->status === 1 ? 'Active' : 'Inactive' }}
                                         </span>
                                     </td>
-                                    <td>
-                                        <span
-                                            class="badge {{ $server->isActive() ? 'badge-light-success' : 'badge-light-danger' }}">
-                                            {{ $server->status === true ? 'Active' : 'Inactive' }}
-                                        </span>
-                                    </td>
+                                    <td>{{ $subServer->created_at->toFormattedDateString() }}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
-                                            <a type="button" href="{{ route('all.sub-servers', $server->id) }}"
-                                                class="btn btn-outline-info d-flex align-items-center justify-content-center">
-                                                <Iconify-icon icon="solar:server-square-broken" width="20"
-                                                        height="20"></Iconify-icon>
-                                            </a>
-                                            <a type="button" href="{{ route('servers.edit', $server->id) }}"
+                                            <a type="button" href="{{ route('sub-server.edit', [$server->id, $subServer->id]) }}"
                                                 class="btn btn-outline-warning d-flex align-items-center justify-content-center">
                                                 <iconify-icon icon="material-symbols:edit" width="20"
                                                     height="20"></iconify-icon>
                                             </a>
-                                            <button type="button" wire:click="$js.confirmDelete({{ $server->id }})"
+                                            <button type="button" wire:click="$js.confirmDelete({{ $subServer->id }})"
                                                 class="btn btn-outline-danger d-flex align-items-center justify-content-center">
                                                 <Iconify-icon icon="mingcute:delete-2-line" width="20"
                                                     height="20"></Iconify-icon>
@@ -132,13 +102,13 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center">No Servers found</td>
+                                    <td colspan="8" class="text-center">No Sub Servers found</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                     <div class="mt-3">
-                        {{ $servers->links('components.pagination', data: ['scrollTo' => false]) }}
+                        {{ $subServers->links('components.pagination', data: ['scrollTo' => false]) }}
                     </div>
                 </div>
             </div>
@@ -158,7 +128,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $wire.deleteServer(id);
+                    $wire.deleteSubServer(id);
                 }
             });
         });

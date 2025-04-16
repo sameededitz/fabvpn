@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Server extends Model
+class Server extends Model implements HasMedia
 {
+    use HasFactory, InteractsWithMedia;
+
     protected $fillable = ['name', 'android', 'ios', 'macos', 'windows', 'longitude', 'latitude', 'type', 'status'];
 
     protected $casts = [
@@ -34,5 +39,15 @@ class Server extends Model
     public function subServers()
     {
         return $this->hasMany(SubServer::class);
+    }
+
+    public function isPremium()
+    {
+        return $this->type === 'premium';
+    }
+
+    public function isActive()
+    {
+        return $this->status === true;
     }
 }

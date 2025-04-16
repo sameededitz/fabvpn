@@ -45,6 +45,7 @@ class AllServers extends Component
     public function deleteServer($serverId)
     {
         $server = Server::findOrFail($serverId);
+        $server->clearMediaCollection('image');
         $server->delete();
 
         $this->dispatch('sweetAlert', title: 'Deleted!', message: 'Server has been deleted successfully.', type: 'success');

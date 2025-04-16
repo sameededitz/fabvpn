@@ -4,10 +4,8 @@
 <script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
-<script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/iconify/iconify-icon.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
-<script src="{{ asset('assets/js/index.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert.js') }}"></script>
 <!--app JS-->
 <script src="{{ asset('assets/js/app.js') }}"></script>
 

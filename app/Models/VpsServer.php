@@ -21,4 +21,9 @@ class VpsServer extends Model
         'private_key',
         'password',
     ];
+
+    public function isActive()
+    {
+        return $this->status === 1;
+    }
 }
