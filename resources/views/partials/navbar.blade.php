@@ -4,9 +4,6 @@
             <div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
             </div>
             <div class="top-menu ms-auto">
-                <ul class="navbar-nav align-items-center gap-1">
-
-                </ul>
             </div>
             <div class="user-box dropdown px-3">
                 <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#"

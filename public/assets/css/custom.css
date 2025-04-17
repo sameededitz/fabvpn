@@ -191,9 +191,35 @@ ul {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .animate-spin {
     animation: spin 1s linear infinite;
+}
+
+
+.dropdown-menu {
+    min-width: 16rem;
+}
+
+.btn-rounded{
+    border-radius: 50% !important;
+    width: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+.dropdown-item:focus, .dropdown-item:hover{
+    background-color: transparent !important;
+    color: #fff !important;
+}
+
+.container.range-plugin, .container.range-plugin.show{
+    left: -75px !important;
+}
+.modal-backdrop.fade.show{
+    z-index: 0;
 }

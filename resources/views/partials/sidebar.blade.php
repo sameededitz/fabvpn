@@ -38,6 +38,22 @@
                 <div class="menu-title">VPN Servers</div>
             </a>
         </li>
+        <li>
+            <a href="{{ route('plans.all') }}">
+                <div class="parent-icon">
+                    <iconify-icon icon="mdi:currency-usd" class="flex-shrink-0" width="20" height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Plans</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('users.all') }}">
+                <div class="parent-icon">
+                    <iconify-icon icon="ri:user-line" class="flex-shrink-0" width="20" height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Users</div>
+            </a>
+        </li>
         <li class="menu-label">Others</li>
         <li>
             <a href="https://linktr.ee/sameeddev" target="_blank">

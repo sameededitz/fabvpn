@@ -60,7 +60,7 @@ class Login extends Component
         Session::regenerate();
 
         if (Auth::user()->role === 'admin') {
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('servers.all'));
         }
     }
 
