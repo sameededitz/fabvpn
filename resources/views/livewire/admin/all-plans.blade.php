@@ -1,4 +1,7 @@
 <div>
+    @if (session('message'))
+        <x-alert type="success" :message="session('message')" />
+    @endif
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="breadcrumb-title pe-3">Fab VPN</div>
@@ -13,7 +16,7 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <a href="{{ route('create-plan') }}"><button class="btn btn-light px-5">Create</button></a>
+                <button class="btn btn-light px-5" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
             </div>
         </div>
     </div>
@@ -24,7 +27,8 @@
             <hr />
             <div class="card">
                 <div class="d-flex justify-content-between">
-                    <select class="form-select form-select-dropdown mb-3" wire:model.live="perPage" aria-label="Default select example">
+                    <select class="form-select form-select-dropdown mb-3" wire:model.live="perPage"
+                        aria-label="Default select example">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
@@ -56,9 +60,8 @@
                                     <td>{{ $plan->duration }} {{ Str::title($plan->duration_unit) }}</td>
                                     <td>{{ $plan->created_at->diffForHumans() }}</td>
                                     <td>
-                                        {{-- <a href="{{ route('edit-plan', ['id' => $plan->id]) }}"
-                                            class="btn btn-primary">Edit</a> --}}
-                                        <button wire:click="deletePlan({{ $plan->id }})"
+                                        <a href="{{ route('plan.edit', $plan->slug) }}" class="btn btn-primary">Edit</a>
+                                        <button wire:click="$js.confirmDelete({{ $plan->id }})"
                                             class="btn btn-danger">Delete</button>
                                     </td>
                                 </tr>
@@ -66,24 +69,58 @@
                         </tbody>
                     </table>
                     <div class="mt-3">
-                        {{ $plans->links('components.pagination', data:['scrollTo' => false]) }}
+                        {{ $plans->links('components.pagination', data: ['scrollTo' => false]) }}
                     </div>
                 </div>
-                {{-- <nav aria-label="Page navigation form-pagination">
-                    <ul class="pagination round-pagination">
-                        <li class="page-item"><a class="page-link" href="javascript:;">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="javascript:;javascript:;">1</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="javascript:;">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">3</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">Next</a>
-                        </li>
-                    </ul>
-                </nav> --}}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" wire:ignore.self tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots
+                    in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
+                    McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more
+                    obscure Latin words, consectetur.</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+@script
+    <script>
+        $js('confirmDelete', (id) => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deletePlan(id)
+                }
+            })
+        })
+
+        $wire.on('sweetAlert', (event) => {
+            Swal.fire({
+                icon: event.type,
+                title: event.title,
+                text: event.message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    </script>
+@endscript

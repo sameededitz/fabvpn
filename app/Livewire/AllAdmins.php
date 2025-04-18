@@ -14,6 +14,17 @@ class AllAdmins extends Component
     {
         $this->resetPage();
     }
+    public function deleteUser($userId)
+    {
+        $user = User::find($userId);
+
+        if ($user) {
+            $user->delete();
+            $this->dispatch('sweetAlert', title:'User Deleted', message: 'User has been deleted successfully.', type: 'success');
+        } else {
+            $this->dispatch('sweetAlert', title:'User Not Found', message: 'User not found.', type: 'error');
+        }
+    }
     public function render()
     {
         $users = User::where(function ($query) {

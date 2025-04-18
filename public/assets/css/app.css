@@ -921,6 +921,10 @@ a {
 	background-color: rgb(0 0 0 / 15%);
 
 }
+
+.changePasswordModal{
+	z-index: 00;
+}
 .table-search {
 	width: 30%;
 	margin-top: 10px;

@@ -1,4 +1,7 @@
 <div>
+    @if (session('message'))
+        <x-alert type="success" :message="session('message')" />
+    @endif
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
         <div class="breadcrumb-title pe-3">Fab VPN</div>
@@ -59,8 +62,10 @@
                                     <td>{{ $user->last_login ? $user->last_login->diffForHumans() : 'Never' }}</td>
                                     <td>{{ $user->created_at->toFormattedDateString() }}</td>
                                     <td>
-                                        {{-- <a href="{{ route('admin.edit', $user) }}" class="btn btn-primary">Edit</a> --}}
-                                        <button class="btn btn-danger" wire:click="delete({{ $user->id }})">Delete</button>
+                                        <a href="{{ route('edit-user', $user->id) }}"
+                                            class="btn btn-primary">Edit</a>
+                                            <button class="btn btn-danger"
+                                              wire:click="$js.confirmDelete({{ $user->id }})">Delete</button>
                                     </td>
                                 </tr>
                             @empty
@@ -71,24 +76,38 @@
                         </tbody>
                     </table>
                     <div class="mt-3">
-                        {{ $users->links('components.pagination', data:['scrollTo' => false]) }}
+                        {{ $users->links('components.pagination', data: ['scrollTo' => false]) }}
                     </div>
                 </div>
-                {{-- <nav aria-label="Page navigation form-pagination">
-                    <ul class="pagination round-pagination">
-                        <li class="page-item"><a class="page-link" href="javascript:;">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="javascript:;javascript:;">1</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="javascript:;">2</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">3</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="javascript:;">Next</a>
-                        </li>
-                    </ul>
-                </nav> --}}
             </div>
         </div>
     </div>
 </div>
+@script
+    <script>
+        $js('confirmDelete', (id) => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deleteUser(id)
+                }
+            })
+        })
+
+        $wire.on('sweetAlert', (event) => {
+            Swal.fire({
+                icon: event.type,
+                title: event.title,
+                text: event.message,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    </script>
+    @endscript

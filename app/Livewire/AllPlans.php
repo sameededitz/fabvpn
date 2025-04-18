@@ -18,6 +18,18 @@ class AllPlans extends Component
         $this->resetPage();
     }
 
+    public function deletePlan($planId)
+    {
+        $plan = Plan::find($planId);
+
+        if ($plan) {
+            $plan->delete();
+            $this->dispatch('sweetAlert', title:'Plan Deleted', message: 'Plan has been deleted successfully.', type: 'success');
+        } else {
+            $this->dispatch('sweetAlert', title:'Plan Not Found', message: 'Plan not found.', type: 'error');
+        }
+    }
+
     public function render()
     {
         $plans = Plan::query()

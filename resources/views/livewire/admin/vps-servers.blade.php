@@ -13,7 +13,12 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <a href="{{ route('create-vps-servers') }}"><button class="btn btn-light px-5">Create</button></a>
+                <a href="{{ route('admin.vpn-deployment') }}" class="me-2">
+                    <button class="btn btn-light px-5">Run Script</button>
+                </a>
+                <a href="{{ route('create-vps-servers') }}" class="ms-2">
+                    <button class="btn btn-light px-5">Create</button>
+                </a>
             </div>
         </div>
     </div>
