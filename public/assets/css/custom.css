@@ -205,21 +205,32 @@ ul {
     min-width: 16rem;
 }
 
-.btn-rounded{
+.btn-rounded {
     border-radius: 50% !important;
     width: 36px;
     align-items: center;
     justify-content: center;
     padding: 5px;
 }
-.dropdown-item:focus, .dropdown-item:hover{
+
+.dropdown-item:focus,
+.dropdown-item:hover {
     background-color: transparent !important;
     color: #fff !important;
 }
 
-.container.range-plugin, .container.range-plugin.show{
+.container.range-plugin,
+.container.range-plugin.show {
     left: -75px !important;
 }
-.modal-backdrop.fade.show{
+
+.modal-backdrop.fade.show {
     z-index: 0;
+}
+
+.terminal-output {
+    color: #fff !important;
+    overflow-y: auto !important;
+    max-height: 300px !important;
+    white-space: pre-wrap;
 }

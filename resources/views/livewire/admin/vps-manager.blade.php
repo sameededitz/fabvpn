@@ -16,18 +16,18 @@
     </div>
     <!--end breadcrumb-->
 
-    <div class="row" wire:init="fetchServerUsage" wire:poll.visible.60s="fetchServerUsage">
+    <div class="row" wire:init="fetchServerUsage">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-end">
             <button type="button" wire:click="fetchServerUsage"
                 class="btn btn-outline-info d-flex align-items-center justify-content-center float-end gap-2">
 
                 <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading.remove
-                    class="transition-all duration-300"></iconify-icon>
+                    wire:target="fetchServerUsage" class="transition-all duration-300"></iconify-icon>
 
                 <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading
                     wire:target="fetchServerUsage" class="animate-spin transition-all duration-300"></iconify-icon>
 
-                <span wire:loading.remove>
+                <span wire:loading.remove wire:target="fetchServerUsage">
                     Refresh
                 </span>
 
@@ -85,21 +85,7 @@
     </div>
 
     <div class="row mt-2">
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="mb-1">WireGuard</h6>
-                        <span
-                            class="badge badge-light-{{ $wireguardStatus == 'Running' ? 'success' : 'danger' }}">{{ $wireguardStatus == 'Running' ? 'Running' : 'Not Running' }}</span>
-                    </div>
-                    <div class="text-info">
-                        {{ $wireguardConnectedUsers }} Users
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="widget-heading d-flex justify-content-between align-items-center">
@@ -115,7 +101,7 @@
         </div>
     </div>
 
-    <div class="row" wire:init="fetchConnectedUsers">
+    {{-- <div class="row" wire:init="fetchConnectedUsers">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-end">
             <button type="button" wire:click="fetchConnectedUsers"
                 class="btn btn-outline-info d-flex align-items-center justify-content-center float-end gap-2">
@@ -196,6 +182,44 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+    <div class="row mb-3">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-end">
+            <button type="button" wire:click="runScript"
+                class="btn btn-outline-info d-flex align-items-center justify-content-center float-end gap-2">
+
+                <iconify-icon icon="carbon:script" width="24" height="24" wire:loading.remove
+                    wire:target="runScript" class="transition-all duration-300"></iconify-icon>
+
+                <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading
+                    wire:target="runScript" class="animate-spin transition-all duration-300"></iconify-icon>
+
+                <span wire:loading.remove wire:target="runScript">
+                    Run IKEv2 Script
+                </span>
+
+                <span wire:loading wire:target="runScript">
+                    Loading...
+                </span>
+
+            </button>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="card bg-dark text-white">
+                <div class="card-header">
+                    Script Output
+                </div>
+                <div class="card-body">
+                    <pre id="script-output" class="mb-0 terminal-output" wire:stream="output">
+                        <code>{{ $output }}</code>
+                    </pre>
                 </div>
             </div>
         </div>
@@ -304,7 +328,7 @@
                 icon: event.type,
                 position: 'top-end',
                 toast: true,
-                timer: 2000,
+                timer: 5000,
                 showConfirmButton: false
             });
         });
