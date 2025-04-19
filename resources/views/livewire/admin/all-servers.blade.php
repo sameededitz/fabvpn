@@ -39,32 +39,59 @@
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                             </select>
-                            <select class="form-select form-select-sm" wire:model.live="statusFilter">
-                                <option value="" selected>Status</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                            <select class="form-select form-select-sm" wire:model.live="typeFilter">
-                                <option value="" selected>Type</option>
-                                <option value="free">Free</option>
-                                <option value="premium">Premium</option>
-                            </select>
-                            <select class="form-select form-select-sm" wire:model.live="platformFilter">
-                                <option value="" selected>Platform</option>
-                                <option value="windows">Windows</option>
-                                <option value="macos">Mac</option>
-                                <option value="ios">iOS</option>
-                                <option value="android">Android</option>
-                            </select>
                         </div>
-                        <div class="search-input">
-                            <div class="input-group input-group-sm">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search..."
                                     wire:model.live.500ms="search">
                                 <span class="input-group-text" id="basic-addon1">
                                     <Iconify-icon icon="material-symbols-light:search" width="20"
                                         height="20"></Iconify-icon>
                                 </span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-rounded d-flex" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <iconify-icon icon="line-md:filter" width="24" height="24"></iconify-icon>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <div class="dropdown-header text-start d-flex justify-content-between mb-3">
+                                            <h6 class="text-uppercase mb-0">Filters</h6>
+                                            <h6 class="text-danger mb-0" wire:click="resetFilters"
+                                                style="cursor: pointer;">Reset</h6>
+                                        </div>
+                                        <div class="dropdown-item mb-1">
+                                            <label for="statusFilter" class="mb-1">Filter by Status</label>
+                                            <select class="form-select w-100" id="statusFilter"
+                                                wire:model.live="statusFilter">
+                                                <option value="" selected>Status</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">Inactive</option>
+                                            </select>
+                                        </div>
+                                        <div class="dropdown-item mb-1">
+                                            <label for="typeFilter" class="mb-1">Filter by Type</label>
+                                            <select class="form-select w-100" id="typeFilter"
+                                                wire:model.live="typeFilter">
+                                                <option value="" selected>Type</option>
+                                                <option value="free">Free</option>
+                                                <option value="premium">Premium</option>
+                                            </select>
+                                        </div>
+                                        <div class="dropdown-item mb-1">
+                                            <label for="platformFilter" class="mb-1">Filter by Platform</label>
+                                            <select class="form-select w-100" id="platformFilter"
+                                                wire:model.live="platformFilter">
+                                                <option value="" selected>Platform</option>
+                                                <option value="windows">Windows</option>
+                                                <option value="macos">Mac</option>
+                                                <option value="ios">iOS</option>
+                                                <option value="android">Android</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -107,7 +134,7 @@
                                     <td>
                                         <span
                                             class="badge {{ $server->isActive() ? 'badge-light-success' : 'badge-light-danger' }}">
-                                            {{ $server->status === true ? 'Active' : 'Inactive' }}
+                                            {{ $server->isActive() ? 'Active' : 'Inactive' }}
                                         </span>
                                     </td>
                                     <td>
@@ -115,14 +142,15 @@
                                             <a type="button" href="{{ route('all.sub-servers', $server->id) }}"
                                                 class="btn btn-outline-info d-flex align-items-center justify-content-center">
                                                 <Iconify-icon icon="solar:server-square-broken" width="20"
-                                                        height="20"></Iconify-icon>
+                                                    height="20"></Iconify-icon>
                                             </a>
                                             <a type="button" href="{{ route('servers.edit', $server->id) }}"
                                                 class="btn btn-outline-warning d-flex align-items-center justify-content-center">
                                                 <iconify-icon icon="material-symbols:edit" width="20"
                                                     height="20"></iconify-icon>
                                             </a>
-                                            <button type="button" wire:click="$js.confirmDelete({{ $server->id }})"
+                                            <button type="button"
+                                                wire:click="$js.confirmDelete({{ $server->id }})"
                                                 class="btn btn-outline-danger d-flex align-items-center justify-content-center">
                                                 <Iconify-icon icon="mingcute:delete-2-line" width="20"
                                                     height="20"></Iconify-icon>

@@ -21,12 +21,8 @@ class VpsManager extends Component
     public $diskUsage = 'N/A';
     public $isLoading = false;
 
-    public $wireguardStatus = 'Unknown';
     public $ikev2Status = 'Unknown';
-
-    public $wireguardConnectedUsers = 0;
     public $ikev2ConnectedUsers = 0;
-    public $totalConnectedUsers = 0;
 
     public $connectedUsers = [];
     public $vpnTypeFilter = 'all';
@@ -82,8 +78,7 @@ HTML;
             list($used, $total, $percent) = preg_split('/\s+/', $diskUsageRaw);
             $this->diskUsage = "$used / $total ($percent)";
 
-            // $this->fetchWireguardStatus($ssh);
-            // $this->fetchIkev2Status($ssh);
+            $this->fetchIkev2Status($ssh);
 
             $ssh->disconnect();
 
@@ -174,6 +169,8 @@ HTML;
 
             $this->appendOutput("Script execution completed!\n");
 
+            $this->dispatch('scrollToBottom');
+
             sleep(1);
 
             $this->dispatch('sweetToast', type: 'success', message: "VPN setup completed successfully!");
@@ -245,17 +242,6 @@ HTML;
         return $sftp;
     }
 
-    private function fetchWireguardStatus($ssh)
-    {
-        try {
-            $status = trim($ssh->exec("systemctl is-active wg-quick@wg0"));
-            $this->wireguardStatus = ($status === 'active') ? 'Running' : 'Not Running';
-        } catch (\Exception $e) {
-            Log::channel('ssh')->error("Error fetching WireGuard status: " . $e->getMessage());
-            $this->wireguardStatus = 'Error';
-        }
-    }
-
     private function fetchIkev2Status($ssh)
     {
         try {
@@ -310,14 +296,10 @@ HTML;
                 })->toArray();
             }
 
-            $this->wireguardConnectedUsers = $data['wireguard_connected'] ?? 0;
             $this->ikev2ConnectedUsers = $data['ikev2_connected'] ?? 0;
-            $this->totalConnectedUsers = $data['total_connected'] ?? 0;
         } catch (\Exception $e) {
             $this->connectedUsers = null;
-            $this->wireguardConnectedUsers = 'Error';
             $this->ikev2ConnectedUsers = 'Error';
-            $this->totalConnectedUsers = 'Error';
             $this->dispatch('sweetToast', type: 'error', message: $e->getMessage(), title: 'Error!');
             Log::channel('ssh')->error("Error fetching {$this->server->ip_address} server VPN connected users: " . $e->getMessage());
         }

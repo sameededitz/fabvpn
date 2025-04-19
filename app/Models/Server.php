@@ -48,6 +48,6 @@ class Server extends Model implements HasMedia
 
     public function isActive()
     {
-        return $this->status === true;
+        return $this->status === 1;
     }
 }

@@ -101,18 +101,18 @@
         </div>
     </div>
 
-    {{-- <div class="row" wire:init="fetchConnectedUsers">
+    <div class="row" wire:init="fetchConnectedUsers">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-end">
             <button type="button" wire:click="fetchConnectedUsers"
                 class="btn btn-outline-info d-flex align-items-center justify-content-center float-end gap-2">
 
-                <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading.remove
+                <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading.remove wire:target="fetchConnectedUsers"
                     class="transition-all duration-300"></iconify-icon>
 
                 <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading
                     wire:target="fetchConnectedUsers" class="animate-spin transition-all duration-300"></iconify-icon>
 
-                <span wire:loading.remove>
+                <span wire:loading.remove wire:target="fetchConnectedUsers">
                     Fetch Connected Users
                 </span>
 
@@ -185,7 +185,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <div class="row mb-3">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-end">
@@ -218,7 +218,7 @@
                 </div>
                 <div class="card-body">
                     <pre id="script-output" class="mb-0 terminal-output" wire:stream="output">
-                        <code>{{ $output }}</code>
+                        {{ $output }}
                     </pre>
                 </div>
             </div>
@@ -331,6 +331,11 @@
                 timer: 5000,
                 showConfirmButton: false
             });
+        });
+
+        $wire.on('scrollToBottom', () => {
+            var outputElement = document.getElementById('script-output');
+            outputElement.scrollTop = outputElement.scrollHeight;
         });
     </script>
 @endscript

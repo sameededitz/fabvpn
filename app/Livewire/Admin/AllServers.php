@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Server;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,8 +14,11 @@ class AllServers extends Component
     public $search = '';
     public $perPage = 5;
 
+    #[Url]
     public $statusFilter = '';
+    #[Url]
     public $typeFilter = '';
+    #[Url]
     public $platformFilter = '';
 
     public function updatingSearch()
@@ -42,6 +46,15 @@ class AllServers extends Component
         $this->resetPage();
     }
 
+    public function resetFilters()
+    {
+        $this->reset([
+            'statusFilter',
+            'typeFilter',
+            'platformFilter',
+        ]);
+    }
+
     public function deleteServer($serverId)
     {
         $server = Server::findOrFail($serverId);
@@ -55,15 +68,17 @@ class AllServers extends Component
     {
         $servers = Server::query()
             ->when($this->search, fn($query) => $query->where('name', 'like', '%' . $this->search . '%'))
-            ->when($this->statusFilter, fn($query) => $query->where('status', $this->statusFilter))
             ->when($this->typeFilter, fn($query) => $query->where('type', $this->typeFilter))
             ->when($this->platformFilter, function ($query) {
                 return $query->where($this->platformFilter, true);
             })
+            ->when($this->statusFilter !== '', function ($query) {
+                return $query->where('status', (bool) $this->statusFilter);
+            })
             ->orderBy('created_at', 'desc')
             ->paginate($this->perPage);
 
-         /** @disregard @phpstan-ignore-line */
+        /** @disregard @phpstan-ignore-line */
         return view('livewire.admin.all-servers', compact('servers'))
             ->extends('layouts.app')
             ->section('content');
