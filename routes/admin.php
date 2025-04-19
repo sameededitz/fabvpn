@@ -12,8 +12,11 @@ use App\Livewire\Admin\AllVpsServers;
 use App\Livewire\Admin\SubServerEdit;
 use App\Livewire\Admin\VpsServersAdd;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+
     Route::get('/vps-servers', AllVpsServers::class)->name('vps-servers.all');
     Route::get('/vps-servers/create', VpsServersAdd::class)->name('vps-servers.add');
     Route::get('/vps-servers/{vpsServer}/manage', VpsManager::class)->name('vps-servers.manage');

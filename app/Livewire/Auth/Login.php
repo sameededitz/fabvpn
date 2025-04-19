@@ -35,7 +35,7 @@ class Login extends Component
 
         $user = User::where('email', $this->email)->first();
 
-        if($user->role !== 'admin'){
+        if ($user->role !== 'admin') {
             throw ValidationException::withMessages([
                 'email' => "You are not admin.",
             ]);
@@ -60,7 +60,7 @@ class Login extends Component
         Session::regenerate();
 
         if (Auth::user()->role === 'admin') {
-            return redirect()->intended(route('servers.all'));
+            return redirect()->intended(route('admin.dashboard'));
         }
     }
 
@@ -95,7 +95,7 @@ class Login extends Component
 
     public function render()
     {
-         /** @disregard @phpstan-ignore-line */
+        /** @disregard @phpstan-ignore-line */
         return view('livewire.auth.login')
             ->extends('layouts.guest')
             ->section('content');

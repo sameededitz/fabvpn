@@ -1,13 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dash', function () {
-    return view('admin.dashboard');
+    if (Auth::check()) {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('login');
+    }
 });
 
 require __DIR__ . '/auth.php';
