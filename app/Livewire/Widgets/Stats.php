@@ -19,7 +19,7 @@ class Stats extends Component
     {
         $this->totalVpsServers = VpsServer::count();
         $this->totalServers = Server::count();
-        $this->totalUsers = User::count();
+        $this->totalUsers = User::where('role', 'user')->count();
 
         $this->userChangePercentage = $this->getWeeklyChangePercentage(User::class);
     }

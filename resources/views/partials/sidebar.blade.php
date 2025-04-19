@@ -9,7 +9,7 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="user-profile.html">
+            <a href="{{ route('admin.dashboard') }}">
                 <div class="parent-icon">
                     <iconify-icon icon="qlementine-icons:home-16" class="flex-shrink-0" width="20"
                         height="20"></iconify-icon>
