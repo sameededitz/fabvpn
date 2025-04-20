@@ -29,7 +29,22 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12">
+    <div class="col">
+        <div class="card radius-10">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <p class="mb-0">Total Plans</p>
+                        <h4 class="my-1">{{ $totalPlans }}</h4>
+                    </div>
+                    <div class="widgets-icons ms-auto">
+                        <iconify-icon icon="streamline:subscription-cashflow" width="24" height="24"></iconify-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
         <div class="card radius-10">
             <div class="card-body">
                 <div class="d-flex align-items-center">

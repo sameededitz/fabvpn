@@ -48,12 +48,75 @@
             </a>
         </li>
         <li>
+            <a href="{{ route('plans.all') }}">
+                <div class="parent-icon">
+                    <iconify-icon icon="hugeicons:transaction" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Transactions</div>
+            </a>
+        </li>
+        <li>
             <a href="{{ route('users.all') }}">
                 <div class="parent-icon">
                     <iconify-icon icon="ri:user-line" class="flex-shrink-0" width="20"
                         height="20"></iconify-icon>
                 </div>
                 <div class="menu-title">Users</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('users.all') }}">
+                <div class="parent-icon">
+                    <iconify-icon icon="ri:user-line" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Users</div>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:void(0);">
+                <div class="parent-icon">
+                    <iconify-icon icon="iconamoon:notification" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Notification</div>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:void(0);">
+                <div class="parent-icon">
+                    <iconify-icon icon="bx:support" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Ticket Support</div>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:void(0);">
+                <div class="parent-icon">
+                    <iconify-icon icon="mage:email" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Email Manage</div>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:void(0);">
+                <div class="parent-icon">
+                    <iconify-icon icon="material-symbols-light:feedback-outline" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Feedbacks</div>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:void(0);">
+                <div class="parent-icon">
+                    <iconify-icon icon="material-symbols-light:settings-outline-rounded" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Settings</div>
             </a>
         </li>
         {{-- <li class="menu-label">Others</li>

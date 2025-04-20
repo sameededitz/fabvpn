@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Widgets;
 
+use App\Models\Plan;
 use App\Models\User;
 use App\Models\Server;
 use Livewire\Component;
@@ -11,6 +12,7 @@ class Stats extends Component
 {
     public $totalVpsServers;
     public $totalServers;
+    public $totalPlans;
     public $totalUsers;
 
     public $userChangePercentage;
@@ -19,6 +21,7 @@ class Stats extends Component
     {
         $this->totalVpsServers = VpsServer::count();
         $this->totalServers = Server::count();
+        $this->totalPlans = Plan::count();
         $this->totalUsers = User::where('role', 'user')->count();
 
         $this->userChangePercentage = $this->getWeeklyChangePercentage(User::class);
