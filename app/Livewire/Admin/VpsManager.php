@@ -256,7 +256,7 @@ HTML;
     public function fetchConnectedUsers()
     {
         try {
-            $apiUrl = "http://{$this->server->ip_address}:5000/api/vpn/all-connected-users";
+            $apiUrl = "http://{$this->server->ip_address}:5000/api/ikev2/connected-users";
             $apiToken = env('VPS_API_TOKEN'); // API Token
             $response = Http::withHeaders([
                 'X-API-Token' => $apiToken

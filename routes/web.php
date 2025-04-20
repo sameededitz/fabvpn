@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -13,3 +14,8 @@ Route::get('/', function () {
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
+
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+    return 'Storage link created';
+});
