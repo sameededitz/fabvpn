@@ -66,15 +66,6 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('users.all') }}">
-                <div class="parent-icon">
-                    <iconify-icon icon="ri:user-line" class="flex-shrink-0" width="20"
-                        height="20"></iconify-icon>
-                </div>
-                <div class="menu-title">Users</div>
-            </a>
-        </li>
-        <li>
             <a href="javascript:void(0);">
                 <div class="parent-icon">
                     <iconify-icon icon="iconamoon:notification" class="flex-shrink-0" width="20"
