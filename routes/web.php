@@ -19,3 +19,15 @@ Route::get('/storage-link', function () {
     Artisan::call('storage:link');
     return 'Storage link created';
 });
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+    return 'Database migrated';
+});
+Route::get('/seed', function () {
+    Artisan::call('db:seed');
+    return 'Database seeded';
+});
+Route::get('/migrate-refresh-seed', function () {
+    Artisan::call('migrate --seed');
+    return 'Database migrated and seeded';
+});
