@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Plan;
+use App\Models\Purchase;
 use App\Models\User;
-use App\Models\Server;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,8 +17,10 @@ class DatabaseSeeder extends Seeder
         User::factory()->admin()->create();
         User::factory()->user()->create();
         
-        // User::factory(50)->create();
+        User::factory(20)->create();
 
-        // Plan::factory(100)->create();
+        Plan::factory(15)->create();
+
+        Purchase::factory(100)->create();
     }
 }

@@ -48,7 +48,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('plans.all') }}">
+            <a href="{{ route('transactions.all') }}">
                 <div class="parent-icon">
                     <iconify-icon icon="hugeicons:transaction" class="flex-shrink-0" width="20"
                         height="20"></iconify-icon>
@@ -63,6 +63,18 @@
                         height="20"></iconify-icon>
                 </div>
                 <div class="menu-title">Users</div>
+            </a>
+        </li>
+
+        <li class="menu-label">Panel</li>
+
+        <li>
+            <a href="{{ route('admins.all') }}">
+                <div class="parent-icon">
+                    <iconify-icon icon="ri:admin-line" class="flex-shrink-0" width="20"
+                        height="20"></iconify-icon>
+                </div>
+                <div class="menu-title">Admins</div>
             </a>
         </li>
         <li>
