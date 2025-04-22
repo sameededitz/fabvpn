@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
         User::factory()->admin()->create();
         User::factory()->user()->create();
         
-        User::factory(20)->create();
+        // User::factory(20)->create();
 
-        Plan::factory(15)->create();
+        // Plan::factory(15)->create();
 
-        Purchase::factory(100)->create();
+        // Purchase::factory(100)->create();
     }
 }

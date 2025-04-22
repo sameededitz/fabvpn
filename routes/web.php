@@ -15,6 +15,10 @@ Route::get('/', function () {
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 
+Route::get('/test', function () {
+    return view('auth.verify');
+});
+
 Route::get('/storage-link', function () {
     Artisan::call('storage:link');
     return 'Storage link created';
