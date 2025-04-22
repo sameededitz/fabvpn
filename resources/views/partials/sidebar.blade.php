@@ -87,10 +87,9 @@
             </a>
         </li>
         <li>
-            <a href="javascript:void(0);">
+            <a href="{{ route('admin.tickets') }}">
                 <div class="parent-icon">
-                    <iconify-icon icon="bx:support" class="flex-shrink-0" width="20"
-                        height="20"></iconify-icon>
+                    <iconify-icon icon="bx:support" class="flex-shrink-0" width="20" height="20"></iconify-icon>
                 </div>
                 <div class="menu-title">Ticket Support</div>
             </a>
@@ -98,8 +97,7 @@
         <li>
             <a href="javascript:void(0);">
                 <div class="parent-icon">
-                    <iconify-icon icon="mage:email" class="flex-shrink-0" width="20"
-                        height="20"></iconify-icon>
+                    <iconify-icon icon="mage:email" class="flex-shrink-0" width="20" height="20"></iconify-icon>
                 </div>
                 <div class="menu-title">Email Manage</div>
             </a>
@@ -116,8 +114,8 @@
         <li>
             <a href="javascript:void(0);">
                 <div class="parent-icon">
-                    <iconify-icon icon="material-symbols-light:settings-outline-rounded" class="flex-shrink-0" width="20"
-                        height="20"></iconify-icon>
+                    <iconify-icon icon="material-symbols-light:settings-outline-rounded" class="flex-shrink-0"
+                        width="20" height="20"></iconify-icon>
                 </div>
                 <div class="menu-title">Settings</div>
             </a>
