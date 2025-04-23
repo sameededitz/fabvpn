@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 class UserController extends Controller
 {
-    // public function user()
-    // {
-    //     /** @var \App\Models\User $user **/
-    //     $user = Auth::user();
+    public function user()
+    {
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'user' => new UserResource($user)
-    //     ], 200);
-    // }
+        return response()->json([
+            'status' => true,
+            'user' => new UserResource($user)
+        ], 200);
+    }
 
     public function updateProfile(Request $request)
     {
@@ -80,22 +80,22 @@ class UserController extends Controller
                 'message' => 'Current password is incorrect'
             ], 400);
         }
-}
-public function deleteAccount()
-{
-    /** @var \App\Models\User $user **/
-    $user = Auth::user();
-
-    if ($user->delete()) {
-        return response()->json([
-            'status' => true,
-            'message' => 'Account deleted successfully',
-        ], 200);
     }
+    public function deleteAccount()
+    {
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
 
-    return response()->json([
-        'status' => false,
-        'message' => 'Failed to delete account',
-    ], 500);
-}
+        if ($user->delete()) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Account deleted successfully',
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Failed to delete account',
+        ], 500);
+    }
 }

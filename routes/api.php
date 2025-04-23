@@ -36,4 +36,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/feedback/store', [ResourceController::class, 'addFeedback'])->name('api.feedback.add');
 });
-    Route::get('/vps-servers', [ResourceController::class, 'vpsServers']);
+Route::get('/vps-servers', [ResourceController::class, 'vpsServers']);
+
+Route::get('/plans', [ResourceController::class, 'plans']);

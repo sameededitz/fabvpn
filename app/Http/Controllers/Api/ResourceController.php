@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Plan;
 use App\Models\Server;
 use App\Models\VpsServer;
 use Illuminate\Http\Request;
@@ -43,6 +44,16 @@ class ResourceController extends Controller
         ]);
     }
 
+    public function plans()
+    {
+        $plans = Plan::all();
+
+        return response()->json([
+            'status' => true,
+            'plans' => $plans,
+        ]);
+    }
+    
     // public function addFeedback(Request $request)
     // {
     //     $validator = Validator::make($request->all(), [
@@ -148,4 +159,5 @@ class ResourceController extends Controller
 
         return $earthRadius * $c; // Distance in KM
     }
+
 }

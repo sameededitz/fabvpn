@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class PurchaseController extends Controller
 {
-
     public function addPurchase(Request $request)
     {
         $validator = Validator::make($request->all(), [
