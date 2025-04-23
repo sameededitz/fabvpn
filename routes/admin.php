@@ -13,6 +13,7 @@ use App\Livewire\Admin\SubServerAdd;
 use App\Livewire\Admin\AllSubServers;
 use App\Livewire\Admin\AllVpsServers;
 use App\Livewire\Admin\SubServerEdit;
+use App\Livewire\Admin\TicketDetails;
 use App\Livewire\Admin\VpsServersAdd;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
@@ -41,4 +42,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin-accounts', AllAdmins::class)->name('admins.all');
 
     Route::get('/tickets', AllTickets::class)->name('admin.tickets');
+    Route::get('/tickets/{ticketId}', TicketDetails::class)->name('admin.ticket.details');
 });

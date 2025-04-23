@@ -177,6 +177,9 @@ ul {
 .dropdown-menu {
     min-width: 16rem;
 }
+.dropdown-menu.chat-action{
+    min-width: 6rem;
+}
 
 .btn-rounded {
     border-radius: 50% !important;
@@ -184,6 +187,9 @@ ul {
     align-items: center;
     justify-content: center;
     padding: 5px;
+}
+.width-auto{
+    width: auto !important;
 }
 
 .dropdown-item:focus,
@@ -209,4 +215,13 @@ ul {
 }
 .table-box{
     position: relative;
+}
+.transparent-btn{
+    background-color: transparent !important;
+    border: none !important;
+    color: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
 }

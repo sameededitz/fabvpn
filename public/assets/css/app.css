@@ -1744,8 +1744,6 @@ a {
 
 .chat-content {
 
-	margin-left: 340px;
-
 	padding: 15px 15px 15px 15px;
 
 }
@@ -1756,7 +1754,7 @@ a {
 
 	height: 70px;
 
-	left: 340px;
+	left: 0px;
 
 	right: 0;
 
@@ -1778,9 +1776,9 @@ a {
 
 	position: absolute;
 
-	height: 70px;
+	/* height: 90px; */
 
-	left: 340px;
+	left: 0px;
 
 	right: 0;
 
@@ -1794,6 +1792,10 @@ a {
 
 	border-bottom-right-radius: 0.25rem;
 
+}
+
+.chat-footer textarea{
+	resize: none;
 }
 
 .chat-footer-menu a {
@@ -1928,15 +1930,42 @@ a {
 
 }
 
+.chat-top-header-menu button {
+
+	display: inline-block;
+
+	width: 40px;
+
+	height: 40px;
+
+	line-height: 40px;
+
+	font-size: 18px;
+
+	color: #ffffff;
+
+	text-align: center;
+
+	border-radius: 50%;
+
+	background-color: rgb(255 255 255 / 14%);
+
+	border: 1px solid rgb(255 255 255 / 20%);
+}
+
 .chat-content {
 
 	position: relative;
 
 	width: auto;
 
-	height: 450px;
+	height: 400px;
 
 	top: 70px;
+
+	overflow-y: scroll;
+
+	scroll-behavior: smooth;
 
 }
 
