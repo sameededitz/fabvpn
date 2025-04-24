@@ -92,7 +92,7 @@ class ResourceController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors()->all()
-            ], 400);
+            ], 422);
         }
 
         $platform = $request->platform;
@@ -100,7 +100,7 @@ class ResourceController extends Controller
         $locationData = Http::get("http://ip-api.com/json/{$ip}")->json();
 
         if (!isset($locationData['lat']) || !isset($locationData['lon'])) {
-            return response()->json(['error' => 'Could not determine location'], 400);
+            return response()->json(['error' => 'Could not determine location'], 422);
         }
 
         $userLat = $locationData['lat'];

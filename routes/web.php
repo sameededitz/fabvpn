@@ -16,7 +16,7 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 
 Route::get('/test', function () {
-    return view('auth.verify');
+    return view('email.custom-password-reset');
 });
 
 Route::get('/storage-link', function () {

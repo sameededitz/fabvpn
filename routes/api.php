@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
@@ -11,6 +12,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup'])->name('api.signup');
 
     Route::post('/login', [AuthController::class, 'login'])->name('api.login');
+
+    Route::post('/email/resend-verification', [AccountController::class, 'resendEmail'])->name('api.verify.resend');
+
+    Route::post('/forgot-password', [AccountController::class, 'sendResetToken'])->name('api.password.reset');
+
+    Route::post('/reset-password', [AccountController::class, 'resetPassword'])->name('api.password.update');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
