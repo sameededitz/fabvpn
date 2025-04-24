@@ -141,7 +141,7 @@ class TicketDetails extends Component
 
         foreach ($this->attachments as $file) {
             $msg->addMedia($file->getRealPath())
-                ->usingFileName(time() . '_ticket-' . $ticket->id . '_message-' . $msg->id . '_file-' . $file->getClientOriginalName() . '.' . $file->getClientOriginalExtension())
+                ->usingFileName(time() . '_ticket-' . $ticket->id . '_message-' . $msg->id . '_file-' . $file->getClientOriginalName())
                 ->toMediaCollection('attachments');
         }
 

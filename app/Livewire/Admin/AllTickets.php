@@ -5,9 +5,12 @@ namespace App\Livewire\Admin;
 use App\Models\Ticket;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class AllTickets extends Component
 {
+    use WithPagination;
+
     public $search = '';
     public $perPage = 5;
 

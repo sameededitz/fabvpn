@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\ResourceController;
 
@@ -10,7 +11,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup'])->name('api.signup');
 
     Route::post('/login', [AuthController::class, 'login'])->name('api.login');
-
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -35,7 +35,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/nearest-server', [ResourceController::class, 'nearestServer']);
 
     Route::post('/feedback/store', [ResourceController::class, 'addFeedback'])->name('api.feedback.add');
+
+    Route::get('/tickets', [TicketController::class, 'index'])->name('api.tickets.index');
+
+    Route::get('/ticket/{id}', [TicketController::class, 'show'])->name('api.tickets.show');
+
+    Route::post('/ticket/create', [TicketController::class, 'store'])->name('api.tickets.store');
+
+    Route::post('/ticket/{ticketId}/reply', [TicketController::class, 'reply'])->name('api.tickets.reply');
+
+    Route::post('/ticket/{ticketId}/close', [TicketController::class, 'close'])->name('api.tickets.close');
+
+    Route::delete('/ticket/{ticketId}/delete', [TicketController::class, 'destroy'])->name('api.tickets.delete');
 });
+
 Route::get('/vps-servers', [ResourceController::class, 'vpsServers']);
 
 Route::get('/plans', [ResourceController::class, 'plans']);
