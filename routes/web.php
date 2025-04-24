@@ -35,3 +35,7 @@ Route::get('/migrate-refresh-seed', function () {
     Artisan::call('migrate --seed');
     return 'Database migrated and seeded';
 });
+Route::get('/optimize-clear', function () {
+    Artisan::call('optimize:clear');
+    return 'Optimized and cleared';
+});
