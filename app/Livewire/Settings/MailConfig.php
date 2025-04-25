@@ -18,8 +18,8 @@ class MailConfig extends Component
         $this->mail_port = $settings->port ?? config('mail.mailers.smtp.port');
         $this->mail_username = $settings->username ?? config('mail.mailers.smtp.username');
         $this->mail_password = $settings->password ?? config('mail.mailers.smtp.password');
-        $this->mail_from_address = $settings->address ?? config('mail.from.address');
-        $this->mail_from_name = $settings->name ?? config('mail.from.name');
+        $this->mail_from_address = $settings->from_address ?? config('mail.from.address');
+        $this->mail_from_name = $settings->from_name ?? config('mail.from.name');
     }
 
     public function store()
