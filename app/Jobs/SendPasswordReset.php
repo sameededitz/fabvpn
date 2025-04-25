@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use Throwable;
 use App\Models\User;
+use App\Traits\UsesDynamicSmtp;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendPasswordReset implements ShouldQueue
 {
-    use Queueable, InteractsWithQueue, SerializesModels;
+    use Queueable, InteractsWithQueue, SerializesModels, UsesDynamicSmtp;
 
     public $user;
     public $code;

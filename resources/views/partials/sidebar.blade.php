@@ -95,7 +95,7 @@
             </a>
         </li>
         <li>
-            <a href="javascript:void(0);">
+            <a href="{{ route('settings.mail') }}">
                 <div class="parent-icon">
                     <iconify-icon icon="mage:email" class="flex-shrink-0" width="20" height="20"></iconify-icon>
                 </div>
