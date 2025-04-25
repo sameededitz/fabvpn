@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Settings\Tos;
 use App\Livewire\Admin\AllPlans;
 use App\Livewire\Admin\AllUsers;
 use App\Livewire\Admin\AllAdmins;
@@ -45,5 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/tickets', AllTickets::class)->name('admin.tickets');
     Route::get('/tickets/{ticketId}', TicketDetails::class)->name('admin.ticket.details');
 
-    Route::get('/settings/mail', MailConfig::class)->name('settings.mail');
+    Route::prefix('settings')->group(function () {
+        Route::get('/mail', MailConfig::class)->name('settings.mail');
+        Route::get('/tos', Tos::class)->name('settings.tos');
+    });
 });

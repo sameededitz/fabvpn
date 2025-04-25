@@ -95,14 +95,6 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('settings.mail') }}">
-                <div class="parent-icon">
-                    <iconify-icon icon="mage:email" class="flex-shrink-0" width="20" height="20"></iconify-icon>
-                </div>
-                <div class="menu-title">Email Manage</div>
-            </a>
-        </li>
-        <li>
             <a href="javascript:void(0);">
                 <div class="parent-icon">
                     <iconify-icon icon="material-symbols-light:feedback-outline" class="flex-shrink-0" width="20"
@@ -112,13 +104,27 @@
             </a>
         </li>
         <li>
-            <a href="javascript:void(0);">
+            <a class="has-arrow" href="javascript:;" aria-expanded="false">
                 <div class="parent-icon">
                     <iconify-icon icon="material-symbols-light:settings-outline-rounded" class="flex-shrink-0"
                         width="20" height="20"></iconify-icon>
                 </div>
                 <div class="menu-title">Settings</div>
             </a>
+            <ul class="mm-collapse" style="height: 1.6px;">
+                <li>
+                    <a href="{{ route('settings.mail') }}" aria-expanded="false">
+                        <iconify-icon icon="mage:email" width="16" class="me-2" height="16"></iconify-icon>
+                        SMTP Settings
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.tos') }}" aria-expanded="false">
+                        <iconify-icon icon="carbon:policy" class="me-2" width="16" height="16"></iconify-icon>
+                        Tos
+                    </a>
+                </li>
+            </ul>
         </li>
         {{-- <li class="menu-label">Others</li>
         <li>
