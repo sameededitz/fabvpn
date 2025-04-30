@@ -78,7 +78,7 @@
             </a>
         </li>
         <li>
-            <a href="javascript:void(0);">
+            <a href="{{ route('admin.notifications') }}">
                 <div class="parent-icon">
                     <iconify-icon icon="iconamoon:notification" class="flex-shrink-0" width="20"
                         height="20"></iconify-icon>
@@ -95,7 +95,7 @@
             </a>
         </li>
         <li>
-            <a href="javascript:void(0);">
+            <a href="{{ route('admin.feedbacks') }}">
                 <div class="parent-icon">
                     <iconify-icon icon="material-symbols-light:feedback-outline" class="flex-shrink-0" width="20"
                         height="20"></iconify-icon>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Plan;
 use App\Models\Server;
 use App\Models\VpsServer;
+use App\Models\UserFeedback;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
@@ -54,34 +55,34 @@ class ResourceController extends Controller
         ]);
     }
     
-    // public function addFeedback(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'subject' => 'required|string|max:255',
-    //         'email' => 'required|email',
-    //         'message' => 'required|string|max:1000',
-    //     ]);
+    public function addFeedback(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'subject' => 'required|string|max:255',
+            'email' => 'required|email',
+            'message' => 'required|string|max:1000',
+        ]);
 
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'error' => $validator->errors()->all()
-    //         ], 400);
-    //     }
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'error' => $validator->errors()->all()
+            ], 400);
+        }
 
 
-    //     $feedback = UserFeedback::create([
-    //         'subject' => $request->subject,
-    //         'email' => $request->email,
-    //         'message' => $request->message,
-    //     ]);
+        $feedback = UserFeedback::create([
+            'subject' => $request->subject,
+            'email' => $request->email,
+            'message' => $request->message,
+        ]);
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => 'Feedback added successfully',
-    //         'feedback' => $feedback,
-    //     ], 201);
-    // }
+        return response()->json([
+            'status' => true,
+            'message' => 'Feedback added successfully',
+            'feedback' => $feedback,
+        ], 201);
+    }
 
     public function nearestServer(Request $request)
     {

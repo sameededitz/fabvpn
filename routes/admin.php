@@ -9,6 +9,7 @@ use App\Livewire\Admin\AllServers;
 use App\Livewire\Admin\AllTickets;
 use App\Livewire\Admin\ServerEdit;
 use App\Livewire\Admin\VpsManager;
+use App\Livewire\Admin\AllFeedbacks;
 use App\Livewire\Admin\AllPurchases;
 use App\Livewire\Admin\SubServerAdd;
 use App\Livewire\Admin\AllSubServers;
@@ -18,6 +19,7 @@ use App\Livewire\Admin\TicketDetails;
 use App\Livewire\Admin\VpsServersAdd;
 use App\Livewire\Settings\MailConfig;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\AllNotifications;
 use App\Http\Controllers\Admin\DashboardController;
 
 Route::group(['middleware' => ['auth']], function () {
@@ -45,6 +47,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/tickets', AllTickets::class)->name('admin.tickets');
     Route::get('/tickets/{ticketId}', TicketDetails::class)->name('admin.ticket.details');
+
+    Route::get('/notifications', AllNotifications::class)->name('admin.notifications');
+
+    Route::get('/feedbacks', AllFeedbacks::class)->name('admin.feedbacks');
 
     Route::prefix('settings')->group(function () {
         Route::get('/mail', MailConfig::class)->name('settings.mail');
