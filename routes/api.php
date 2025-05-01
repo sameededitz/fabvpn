@@ -41,8 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/nearest-server', [ResourceController::class, 'nearestServer']);
 
-    Route::post('/feedback/store', [ResourceController::class, 'addFeedback'])->name('api.feedback.add');
-
+    
     Route::get('/tickets', [TicketController::class, 'index'])->name('api.tickets.index');
 
     Route::get('/ticket/{id}', [TicketController::class, 'show'])->name('api.tickets.show');
@@ -55,6 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::delete('/ticket/{ticketId}/delete', [TicketController::class, 'destroy'])->name('api.tickets.delete');
 });
+
+Route::post('/feedback/store', [ResourceController::class, 'addFeedback'])->name('api.feedback.add');
 
 Route::get('/vps-servers', [ResourceController::class, 'vpsServers']);
 
