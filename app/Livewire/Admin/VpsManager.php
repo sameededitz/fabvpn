@@ -200,24 +200,6 @@ HTML;
             ]);
         }
     }
-    
-    // Add these new helper methods
-    private function executeCommandWithOutput($ssh, $command)
-    {
-        $output = $ssh->exec($command);
-        if ($output) {
-            $this->appendOutput($output);
-        }
-    }
-    
-    private function executeScriptWithProgress($ssh, $scriptPath)
-    {
-        // Execute script with real-time output
-        $ssh->exec("bash {$scriptPath} 2>&1", function($str) {
-            $this->appendOutput($str);
-            $this->dispatch('scrollToBottom');
-        });
-    }
 
     public function render()
     {
@@ -298,13 +280,6 @@ HTML;
             ])->get($apiUrl);
 
             $data = $response->json();
-            // dd([
-            //     'data' => $data,
-            //     'apiUrl' => $apiUrl,
-            //     'apiToken' => $apiToken,
-            //     'status' => $response->status(),
-            //     'body' => $response->body(),
-            // ]);
             // Log response for debugging
             Log::channel('ssh')->info("Fetched connected users from {$this->server->ip_address} ", (array) $data ?? []);
 
@@ -313,7 +288,7 @@ HTML;
                 throw new \Exception("Invalid API response: null or non-array received");
             }
 
-            if (!isset($data['total_connected'],)) {
+            if (!isset($data['total_connected'])) {
                 throw new \Exception("Invalid API response format");
             }
 
@@ -355,7 +330,7 @@ HTML;
     private function getModifiedScript()
     {
         // The script as a string variable
-        $filePath = storage_path('app/private/setup-vpn.sh');
+        $filePath = storage_path('app/private/scripts/setup-vpn.sh');
 
         if (!file_exists($filePath)) {
             throw new \Exception("Script not found.");
@@ -379,7 +354,7 @@ HTML;
     private function getSecondScript()
     {
         // The script as a string variable
-        $filePath = storage_path('app/private/setup-vpn-api.sh');
+        $filePath = storage_path('app/private/scripts/setup-vpn-api.sh');
 
         if (!file_exists($filePath)) {
             throw new \Exception("Api Script not found.");

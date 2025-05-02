@@ -106,8 +106,8 @@
             <button type="button" wire:click="fetchConnectedUsers"
                 class="btn btn-outline-info d-flex align-items-center justify-content-center float-end gap-2">
 
-                <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading.remove wire:target="fetchConnectedUsers"
-                    class="transition-all duration-300"></iconify-icon>
+                <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading.remove
+                    wire:target="fetchConnectedUsers" class="transition-all duration-300"></iconify-icon>
 
                 <iconify-icon icon="radix-icons:reload" width="24" height="24" wire:loading
                     wire:target="fetchConnectedUsers" class="animate-spin transition-all duration-300"></iconify-icon>
@@ -217,23 +217,17 @@
                     Script Output
                 </div>
                 <div class="card-body p-0">
-                    <pre id="script-output" class="mb-0 terminal-output" wire:stream="output" style="height: 400px; overflow-y: auto; padding: 1rem; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; background-color: #1e1e1e; color: #00ff00; white-space: pre-wrap; word-wrap: break-word;">{{ $output }}</pre>
+                    <pre id="script-output" class="mb-0 terminal-output" wire:stream="output"
+                        style="height: 400px; overflow-y: auto; padding: 1rem; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5; background-color: #1e1e1e; color: #00ff00; white-space: pre-wrap; word-wrap: break-word;">{{ $output }}</pre>
                 </div>
             </div>
         </div>
     </div>
- 
-    
+
+
 </div>
 @script
     <script>
-        document.addEventListener('livewire:initialized', () => {
-    const output = document.getElementById('script-output');
-    if (output) {
-        output.scrollTop = output.scrollHeight;
-    }
-});
-
         function extractNumber(value) {
             return parseFloat(value.replace(/[^\d.]/g, '')) || 0;
         }

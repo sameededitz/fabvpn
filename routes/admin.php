@@ -19,6 +19,7 @@ use App\Livewire\Admin\TicketDetails;
 use App\Livewire\Admin\VpsServersAdd;
 use App\Livewire\Settings\MailConfig;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Settings\ScriptEditor;
 use App\Livewire\Admin\AllNotifications;
 use App\Http\Controllers\Admin\DashboardController;
 
@@ -53,6 +54,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/feedbacks', AllFeedbacks::class)->name('admin.feedbacks');
 
     Route::prefix('settings')->group(function () {
+        Route::get('/script-editor', ScriptEditor::class)->name('settings.script-editor');
+
         Route::get('/mail', MailConfig::class)->name('settings.mail');
         Route::get('/tos', Tos::class)->name('settings.tos');
     });
