@@ -25,7 +25,7 @@ class AllVpsServers extends Component
             'ip_address' => 'required|ip',
             'username' => 'required',
             'port' => 'required|numeric',
-            'domain' => 'required|url',
+            // 'domain' => 'required|url',
             'status' => 'required|boolean',
             'private_key' => 'nullable|required_without:password',
             'password' => 'nullable|required_without:private_key',

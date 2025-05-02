@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Livewire\Admin;
-
+use Illuminate\Support\Facades\Config;
 use Livewire\Component;
 use phpseclib3\Net\SFTP;
 use phpseclib3\Net\SSH2;
@@ -79,6 +79,7 @@ HTML;
             $this->diskUsage = "$used / $total ($percent)";
 
             $this->fetchIkev2Status($ssh);
+            $this->fetchConnectedUsers();
 
             $ssh->disconnect();
 
@@ -99,89 +100,123 @@ HTML;
     {
         set_time_limit(0);
         $this->output = null;
-
+    
         try {
+            $timestamp = now()->format('Y-m-d H:i:s');
+            $this->appendOutput("Starting execution at: {$timestamp}\n\n");
+    
             $script = $this->getModifiedScript();
             $script2 = $this->getSecondScript();
-
-            $this->appendOutput("Executing script on server {$this->server->ip_address}...\n");
-            $this->appendOutput("Connected successfully via SFTP!\n");
-            $this->appendOutput("Uploading setup script...\n");
-
+    
+            // Generate unique script paths with random strings
+            $randomStr1 = substr(str_shuffle(MD5(microtime())), 0, 10);
+            $randomStr2 = substr(str_shuffle(MD5(microtime())), 0, 10);
+            $scriptPath1 = "/tmp/vpn_setup_{$randomStr1}.sh";
+            $scriptPath2 = "/tmp/vpn_setup_api_{$randomStr2}.sh";
+    
+            $this->appendOutput("Executing script on server {$this->server->ip_address}...\n\n");
+    
+            // SFTP Connection and Upload
             $sftp = $this->connectToSftp();
-            $scriptPath1 = '/tmp/vpn_setup_' . time() . '.sh';
+            $this->appendOutput("Connected successfully via SFTP!\n\n");
+            
+            $this->appendOutput("Uploading setup script...\n\n");
+            
             if (!$sftp->put($scriptPath1, $script)) {
                 throw new \Exception("Failed to upload vpn script to the server.");
             }
-            $this->appendOutput("Script uploaded successfully!\n");
-
-            $scriptPath2 = '/tmp/vpn_setup_api_' . time() . '.sh';
+            $this->appendOutput("Script uploaded successfully!\n\n");
+    
             if (!$sftp->put($scriptPath2, $script2)) {
                 throw new \Exception("Failed to upload vpn api script to the server.");
             }
-            $this->appendOutput("Second script uploaded successfully!\n");
-
+            $this->appendOutput("Second script uploaded successfully!\n\n");
+    
             $sftp->disconnect();
-
-            $this->appendOutput("SFTP disconnected\n");
-
-            $this->appendOutput("Connecting to server via SSH...\n");
-
-            $ssh = $this->connectToServer();
-            if (!$ssh) {
-                throw new \Exception("SSH connection failed.");
+            $this->appendOutput("SFTP disconnected\n\n");
+    
+            // SSH Connection
+            $this->appendOutput("Connecting to server via SSH...\n\n");
+            $ssh = new SSH2($this->server->ip_address, $this->server->port, 30);
+    
+            if (!empty($this->server->private_key)) {
+                $key = PublicKeyLoader::load($this->server->private_key);
+                if (!$ssh->login($this->server->username, $key)) {
+                    throw new \Exception("SSH key authentication failed");
+                }
+            } elseif (!empty($this->server->password)) {
+                if (!$ssh->login($this->server->username, $this->server->password)) {
+                    throw new \Exception("Password authentication failed");
+                }
             }
-
-            $this->appendOutput("Connected successfully via SSH!\n");
-
-            $ssh->setTimeout(600); // 10 minutes timeout
-
-            $this->appendOutput("Setting up VPN...\n");
-            $this->appendOutput("Making scripts executable...\n");
-            $this->appendOutput("Changing permissions for both scripts...\n");
-
+    
+            $this->appendOutput("Connected successfully via SSH!\n\n");
+            $ssh->setTimeout(1200); // 20 minutes timeout
+    
+            $this->appendOutput("Setting up VPN...\n\n");
+            $this->appendOutput("Making scripts executable...\n\n");
+            $this->appendOutput("Changing permissions for both scripts...\n\n");
+    
+            // Execute chmod commands first
             $ssh->exec("chmod +x {$scriptPath1}");
             $ssh->exec("chmod +x {$scriptPath2}");
-
-            $this->appendOutput("Scripts made executable!\n");
-
-            $this->appendOutput("\n=== Starting VPN Setup Script ===\n\n");
-            $this->appendOutput($ssh->exec("bash {$scriptPath1}"));
+    
+            $this->appendOutput("=== Starting VPN Setup Script ===\n\n");
+            
+            // Execute first script with nohup and redirect output
+            $command1 = "nohup bash {$scriptPath1} 2>&1";
+            $ssh->exec($command1, function($str) {
+                $this->appendOutput($str);
+                usleep(50000); // Small delay to prevent overwhelming the connection
+            });
+    
             $this->appendOutput("\n=== VPN Setup Script Completed ===\n\n");
-
-            $this->appendOutput("Setting up VPN API...\n");
-
-            $this->appendOutput("\n=== Starting VPN API Setup Script ===\n\n");
-            $this->appendOutput($ssh->exec("bash {$scriptPath2}"));
-            $this->appendOutput("\n=== VPN API Setup Script Completed ===\n\n");
-
-            $this->appendOutput("VPN setup completed successfully!\n");
-
-            $this->appendOutput("Cleaning up both files...\n");
-
+            $this->appendOutput("Starting VPN API Setup...\n\n");
+    
+            // Execute second script with nohup and redirect output
+            $command2 = "nohup bash {$scriptPath2} 2>&1";
+            $ssh->exec($command2, function($str) {
+                $this->appendOutput($str);
+                usleep(50000); // Small delay to prevent overwhelming the connection
+            });
+    
+            $this->appendOutput("\n=== VPN API Setup Completed ===\n\n");
+    
+            // Cleanup
             $ssh->exec("rm -f {$scriptPath1} {$scriptPath2}");
-            $this->appendOutput("Temporary scripts removed from server.\n");
-
-            $this->appendOutput("Disconnecting from server...\n");
+            $this->appendOutput("Cleanup completed - temporary files removed\n\n");
+    
             $ssh->disconnect();
-
-            $this->appendOutput("Disconnected successfully!\n");
-
-            $this->appendOutput("Script execution completed!\n");
-
-            $this->dispatch('scrollToBottom');
-
-            sleep(1);
-
+            $this->appendOutput("Script execution completed successfully!\n");
+            
             $this->dispatch('sweetToast', type: 'success', message: "VPN setup completed successfully!");
+            
         } catch (\Exception $e) {
-            $this->appendOutput("ERROR: " . $e->getMessage());
+            $this->appendOutput("\nERROR: " . $e->getMessage() . "\n");
             $this->dispatch('sweetToast', type: 'error', message: $e->getMessage());
             Log::channel('ssh')->error("Error executing script on {$this->server->ip_address}:", [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
         }
+    }
+    
+    // Add these new helper methods
+    private function executeCommandWithOutput($ssh, $command)
+    {
+        $output = $ssh->exec($command);
+        if ($output) {
+            $this->appendOutput($output);
+        }
+    }
+    
+    private function executeScriptWithProgress($ssh, $scriptPath)
+    {
+        // Execute script with real-time output
+        $ssh->exec("bash {$scriptPath} 2>&1", function($str) {
+            $this->appendOutput($str);
+            $this->dispatch('scrollToBottom');
+        });
     }
 
     public function render()
@@ -263,7 +298,13 @@ HTML;
             ])->get($apiUrl);
 
             $data = $response->json();
-
+            // dd([
+            //     'data' => $data,
+            //     'apiUrl' => $apiUrl,
+            //     'apiToken' => $apiToken,
+            //     'status' => $response->status(),
+            //     'body' => $response->body(),
+            // ]);
             // Log response for debugging
             Log::channel('ssh')->info("Fetched connected users from {$this->server->ip_address} ", (array) $data ?? []);
 
@@ -272,7 +313,7 @@ HTML;
                 throw new \Exception("Invalid API response: null or non-array received");
             }
 
-            if (!isset($data['total_connected'], $data['wireguard_connected'], $data['ikev2_connected'])) {
+            if (!isset($data['total_connected'],)) {
                 throw new \Exception("Invalid API response format");
             }
 
@@ -296,7 +337,7 @@ HTML;
                 })->toArray();
             }
 
-            $this->ikev2ConnectedUsers = $data['ikev2_connected'] ?? 0;
+            $this->ikev2ConnectedUsers = $data['total_connected'] ?? 0;
         } catch (\Exception $e) {
             $this->connectedUsers = null;
             $this->ikev2ConnectedUsers = 'Error';
@@ -314,14 +355,13 @@ HTML;
     private function getModifiedScript()
     {
         // The script as a string variable
-        $filePath = storage_path('app/private/scripts/setup-vpn.sh');
+        $filePath = storage_path('app/private/setup-vpn.sh');
 
         if (!file_exists($filePath)) {
             throw new \Exception("Script not found.");
         }
 
         $script = file_get_contents($filePath);
-
         // Replace the variables with user-provided values
         $script = str_replace([
             '{{VPN_DOMAIN}}',
@@ -339,7 +379,7 @@ HTML;
     private function getSecondScript()
     {
         // The script as a string variable
-        $filePath = storage_path('app/private/scripts/setup-vpn-api.sh');
+        $filePath = storage_path('app/private/setup-vpn-api.sh');
 
         if (!file_exists($filePath)) {
             throw new \Exception("Api Script not found.");

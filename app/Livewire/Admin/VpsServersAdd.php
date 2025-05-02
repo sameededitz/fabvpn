@@ -16,7 +16,7 @@ class VpsServersAdd extends Component
             'ip_address' => 'required',
             'username' => 'required',
             'port' => 'required',
-            'domain' => 'required',
+            // 'domain' => 'required',
             'status' => 'required',
             'private_key' => 'nullable|required_without:password',
             'password' => 'nullable|required_without:private_key',
