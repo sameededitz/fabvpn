@@ -7,6 +7,7 @@ use App\Livewire\Admin\AllAdmins;
 use App\Livewire\Admin\ServerAdd;
 use App\Livewire\Admin\AllServers;
 use App\Livewire\Admin\AllTickets;
+use App\Livewire\Admin\ManageUser;
 use App\Livewire\Admin\ServerEdit;
 use App\Livewire\Admin\VpsManager;
 use App\Livewire\Admin\AllFeedbacks;
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/transactions', AllPurchases::class)->name('transactions.all');
 
     Route::get('/users', AllUsers::class)->name('users.all');
+    Route::get('/user/{user:slug}/manage', ManageUser::class)->name('user.manage');
 
     Route::get('/admin-accounts', AllAdmins::class)->name('admins.all');
 

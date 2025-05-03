@@ -111,11 +111,16 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>Free</td>
-                                    <td>{{ $user->last_login ? $user->last_login->toFormattedDateString() : 'N/A' }}
+                                    <td>{{ $user->last_login ? $user->last_login->diffForHumans() : 'N/A' }}
                                     </td>
                                     <td>{{ $user->created_at->toFormattedDateString() }}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
+                                            <a href="{{ route('user.manage', $user->slug) }}"
+                                                class="btn btn-outline-info d-flex align-items-center justify-content-center">
+                                                <Iconify-icon icon="ic:round-manage-accounts" width="20"
+                                                    height="20"></Iconify-icon>
+                                            </a>
                                             <button type="button" wire:click="editUser({{ $user->id }})"
                                                 data-bs-toggle="modal" data-bs-target="#userModel"
                                                 class="btn btn-outline-warning d-flex align-items-center justify-content-center">

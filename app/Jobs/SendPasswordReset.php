@@ -36,6 +36,7 @@ class SendPasswordReset implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->applySmtpConfig();
         $this->user->sendPasswordResetNotification($this->code);
     }
 

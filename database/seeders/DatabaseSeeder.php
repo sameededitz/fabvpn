@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
 
         // Purchase::factory(100)->create();
 
-        Ticket::factory(5)->create();
+        // Ticket::factory(5)->create();
     }
 }
