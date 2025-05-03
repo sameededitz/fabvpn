@@ -75,6 +75,13 @@ class AuthController extends Controller
             ], 403);
         }
 
+        if ($user->isBanned()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Your account has been banned. Please contact support.'
+            ], 403);
+        }
+
         if (Auth::attempt($request->only(['email', 'password']))) {
             $user = Auth::user();
 

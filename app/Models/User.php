@@ -29,6 +29,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
         'email_verified_at',
         'last_login',
+        'banned_at',
+        'ban_reason',
+        'remember_token',
     ];
 
     /**
@@ -49,13 +52,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'email_verified_at' => 'datetime',
+            'banned_at' => 'datetime',
             'last_login' => 'datetime',
         ];
     }
 
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
@@ -80,5 +84,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function purchases()
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function activePlan()
+    {
+        return $this->hasOne(Purchase::class)->where('status', 'active')->where('end_date', '>', now())->latest();
+    }
+
+    public function isBanned(): bool
+    {
+        return !is_null($this->banned_at);
     }
 }
