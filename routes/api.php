@@ -17,6 +17,8 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/forgot-password', [AccountController::class, 'sendResetToken'])->name('api.password.reset');
 
+    Route::post('/verify/code', [AccountController::class, 'verifyResetCode'])->name('api.password.verify');
+
     Route::post('/reset-password', [AccountController::class, 'resetPassword'])->name('api.password.update');
 });
 

@@ -96,6 +96,48 @@ class AccountController extends Controller
         ], 200);
     }
 
+    public function verifyResetCode(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'code' => 'required|digits:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->all(),
+            ], 422);
+        }
+
+        $record = PasswordResetCode::where('email', $request->email)
+            ->where('code', $request->code)
+            ->first();
+
+        if (!$record) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid code!',
+            ], 422);
+        }
+
+        if ($record->expires_at < now()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Code expired!',
+            ], 422);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Code verified successfully.',
+            'data' => [
+                'email' => $record->email,
+                'code' => $record->code,
+            ]
+        ], 200);
+    }
+
     public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
