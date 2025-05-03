@@ -46,6 +46,7 @@ class MailConfig extends Component
         );
 
         Artisan::call('config:clear');
+        Artisan::call('queue:restart');
 
         $this->dispatch('sweetAlert', title: 'Success', message: 'Mail settings updated successfully.', type: 'success');
     }
