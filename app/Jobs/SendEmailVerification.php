@@ -36,6 +36,7 @@ class SendEmailVerification implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->applySmtpConfig();
         $this->user->sendEmailVerificationNotification();
     }
 

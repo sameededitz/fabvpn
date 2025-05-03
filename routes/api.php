@@ -40,7 +40,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/servers', [ResourceController::class, 'servers'])->name('api.servers');
 
     Route::get('/nearest-server', [ResourceController::class, 'nearestServer']);
-
     
     Route::get('/tickets', [TicketController::class, 'index'])->name('api.tickets.index');
 
