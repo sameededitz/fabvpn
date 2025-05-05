@@ -31,6 +31,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_login',
         'banned_at',
         'ban_reason',
+        'apple_id',
+        'google_id',
         'remember_token',
     ];
 
