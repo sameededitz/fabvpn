@@ -7,11 +7,16 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\ResourceController;
+use App\Http\Controllers\Api\SocialController;
 
 Route::middleware('guest')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup'])->name('api.signup');
 
     Route::post('/login', [AuthController::class, 'login'])->name('api.login');
+
+    Route::post('/login/google',[SocialController::class, 'google'])->name('api.login.google');
+
+    Route::post('/login/apple',[SocialController::class, 'apple'])->name('api.login.apple');
 
     Route::post('/email/resend-verification', [AccountController::class, 'resendEmail'])->name('api.verify.resend');
 

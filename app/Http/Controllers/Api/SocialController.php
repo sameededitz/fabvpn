@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class SocialController extends Controller
 {
-    public function handleGoogleCallback(Request $request)
+    public function google(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'token' => 'required|string',
@@ -74,7 +74,7 @@ class SocialController extends Controller
         }
     }
 
-    public function handleAppleCallback(Request $request)
+    public function apple(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'id_token' => 'required|string',
