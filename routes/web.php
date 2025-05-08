@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use App\Services\OneSignalService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -16,7 +18,18 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 
 Route::get('/test', function () {
-    return view('email.custom-password-reset');
+    $users = User::whereNotNull('onesignal_player_id')->get();
+
+    $playerIds = $users->pluck('onesignal_player_id')->toArray();
+
+    if (!empty($playerIds)) {
+        $response = app(OneSignalService::class)->sendPush(
+            "Hi there",
+            "This is a test notification",
+            $playerIds
+        );
+        dd($response);
+    }
 });
 
 Route::get('/storage-link', function () {

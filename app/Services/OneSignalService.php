@@ -36,7 +36,7 @@ class OneSignalService
         ];
 
         if (!empty($playerIds)) {
-            $payload['include_player_ids'] = $playerIds;
+            $payload['include_subscription_ids'] = $playerIds;
         } else {
             $payload['included_segments'] = ['All'];
         }
