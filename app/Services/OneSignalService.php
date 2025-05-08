@@ -32,11 +32,12 @@ class OneSignalService
             'app_id' => $this->appId,
             'headings' => ['en' => $title],
             'contents' => ['en' => $message],
+            "target_channel" => "push"
         ];
 
         if (!empty($playerIds)) {
             $payload['include_player_ids'] = $playerIds;
-        }else{
+        } else {
             $payload['included_segments'] = ['All'];
         }
 
