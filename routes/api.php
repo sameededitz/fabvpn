@@ -14,9 +14,9 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
-    Route::post('/login/google',[SocialController::class, 'google'])->name('api.login.google');
+    Route::post('/login/google', [SocialController::class, 'google'])->name('api.login.google');
 
-    Route::post('/login/apple',[SocialController::class, 'apple'])->name('api.login.apple');
+    Route::post('/login/apple', [SocialController::class, 'apple'])->name('api.login.apple');
 
     Route::post('/email/resend-verification', [AccountController::class, 'resendEmail'])->name('api.verify.resend');
 
@@ -33,7 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/update', [UserController::class, 'updateProfile'])->name('api.profile.update');
 
     Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('api.profile.update.password');
-
+    
+    Route::post('/user/player-id/save', [UserController::class, 'savePlayerId'])->name('api.profile.player.id');
+    
     Route::delete('/user/delete', [UserController::class, 'deleteAccount'])->name('api.profile.delete');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
@@ -47,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/servers', [ResourceController::class, 'servers'])->name('api.servers');
 
     Route::get('/nearest-server', [ResourceController::class, 'nearestServer']);
-    
+
     Route::get('/tickets', [TicketController::class, 'index'])->name('api.tickets.index');
 
     Route::get('/ticket/{id}', [TicketController::class, 'show'])->name('api.tickets.show');

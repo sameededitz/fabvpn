@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('ban_reason')->nullable();
             $table->string('google_id')->nullable()->unique();
             $table->string('apple_id')->nullable()->unique();
+            $table->string('onesignal_player_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
