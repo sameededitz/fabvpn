@@ -63,6 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/ticket/{ticketId}/delete', [TicketController::class, 'destroy'])->name('api.tickets.delete');
 });
 
+Route::get('/notifications', [ResourceController::class, 'notifications'])->name('api.notifications');
+
 Route::post('/feedback/store', [ResourceController::class, 'addFeedback'])->name('api.feedback.add');
 
 Route::get('/vps-servers', [ResourceController::class, 'vpsServers']);

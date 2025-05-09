@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use App\Http\Resources\ServerResource;
 use App\Http\Resources\VpsServerResource;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class ResourceController extends Controller
@@ -52,6 +53,15 @@ class ResourceController extends Controller
         return response()->json([
             'status' => true,
             'plans' => $plans,
+        ]);
+    }
+
+    public function notifications(){
+        $notifications = Notification::all('title', 'message', 'created_at');
+
+        return response()->json([
+            'status' => true,
+            'notifications' => $notifications,
         ]);
     }
     
