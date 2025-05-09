@@ -34,8 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/user/update-password', [UserController::class, 'updatePassword'])->name('api.profile.update.password');
     
-    Route::post('/user/player-id/save', [UserController::class, 'savePlayerId'])->name('api.profile.player.id');
-    
     Route::delete('/user/delete', [UserController::class, 'deleteAccount'])->name('api.profile.delete');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');

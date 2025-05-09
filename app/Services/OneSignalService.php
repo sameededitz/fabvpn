@@ -18,7 +18,7 @@ class OneSignalService
         $this->client = new Client();
     }
 
-    public function sendPush($title, $message, array $playerIds = [])
+    public function sendPush($title, $message)
     {
         $url = 'https://api.onesignal.com/notifications?c=push';
 
@@ -32,14 +32,9 @@ class OneSignalService
             'app_id' => $this->appId,
             'headings' => ['en' => $title],
             'contents' => ['en' => $message],
-            "target_channel" => "push"
+            "target_channel" => "push",
+            "included_segments" => ['Active Subscriptions'],
         ];
-
-        if (!empty($playerIds)) {
-            $payload['include_subscription_ids'] = $playerIds;
-        } else {
-            $payload['included_segments'] = ['All'];
-        }
 
         try {
             $response = $this->client->post($url, [

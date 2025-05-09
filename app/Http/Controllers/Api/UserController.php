@@ -99,29 +99,4 @@ class UserController extends Controller
             'message' => 'Failed to delete account',
         ], 500);
     }
-
-    public function savePlayerId(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'player_id' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => $validator->errors()->all()
-            ], 400);
-        }
-
-        /** @var \App\Models\User $user **/
-        $user = Auth::user();
-        $user->update([
-            'onesignal_player_id' => $request->player_id,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Player ID saved successfully',
-        ], 200);
-    }
 }
