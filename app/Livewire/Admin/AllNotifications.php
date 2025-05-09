@@ -5,6 +5,8 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Notification;
 use Livewire\WithPagination;
+use App\Services\OneSignalService;
+use Illuminate\Support\Facades\Log;
 
 class AllNotifications extends Component
 {
@@ -60,11 +62,40 @@ class AllNotifications extends Component
             ]);
             $message = 'Notification updated successfully.';
         } else {
-            Notification::create([
+            $notification = Notification::create([
                 'title' => $this->title,
                 'message' => $this->message,
             ]);
-            $message = 'Notification created successfully.';
+
+            // 🟢 Send push directly
+            $response = app(OneSignalService::class)->sendPush(
+                $notification->title,
+                $notification->message
+            );
+
+            // 🔍 Check for common issues
+            if (!isset($response['id']) || empty($response['id'])) {
+                // Message not sent
+                if (!empty($response['errors'])) {
+                    $errorMessage = is_array($response['errors'])
+                        ? implode('; ', $response['errors'])
+                        : $response['errors'];
+
+                    $this->dispatch('sweetAlert', title: 'Push Error', message: $errorMessage, type: 'error');
+                    Log::channel('notification')->warning('OneSignal push warning', ['response' => $response]);
+                    return;
+                }
+            }
+
+            // Check for invalid_aliases
+            if (isset($response['errors']['invalid_aliases'])) {
+                $aliases = implode(', ', $response['errors']['invalid_aliases']['external_id'] ?? []);
+                $this->dispatch('sweetAlert', title: 'Invalid Aliases', message: "Invalid external IDs: $aliases", type: 'error');
+                Log::channel('notification')->warning('Invalid aliases in OneSignal push', ['response' => $response]);
+                return;
+            }
+
+            $message = 'Notification created and push sent successfully.';
         }
 
         $this->dispatch('closeModel');
