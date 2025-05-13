@@ -38,7 +38,7 @@ class ResourceController extends Controller
     }
     public function vpsServers()
     {
-        $servers = VpsServer::all();
+        $servers = VpsServer::where('status', true)->get();
 
         return response()->json([
             'status' => true,
