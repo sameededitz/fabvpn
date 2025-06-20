@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Resources\ServerResource;
 use App\Http\Resources\VpsServerResource;
 use App\Models\Notification;
+use App\Models\Option;
 use Illuminate\Support\Facades\Validator;
 
 class ResourceController extends Controller
@@ -56,7 +57,20 @@ class ResourceController extends Controller
         ]);
     }
 
-    public function notifications(){
+    public function options()
+    {
+        $tos = Option::where('key', 'tos')->first()->value ?? '';
+        $privacyPolicy = Option::where('key', 'privacy_policy')->first()->value ?? '';
+
+        return response()->json([
+            'status' => true,
+            'tos' => $tos,
+            'privacy_policy' => $privacyPolicy,
+        ]);
+    }
+
+    public function notifications()
+    {
         $notifications = Notification::all('title', 'message', 'created_at');
 
         return response()->json([
@@ -64,7 +78,7 @@ class ResourceController extends Controller
             'notifications' => $notifications,
         ]);
     }
-    
+
     public function addFeedback(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -170,5 +184,4 @@ class ResourceController extends Controller
 
         return $earthRadius * $c; // Distance in KM
     }
-
 }
